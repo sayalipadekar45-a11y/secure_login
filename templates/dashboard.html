@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - Secure Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container dashboard">
+
+    <div class="success-icon">✓</div>
+
+    <h1>Login Successful</h1>
+
+    <p class="welcome">
+        Welcome, <strong>{{ username }}</strong>!
+    </p>
+
+    <div class="profile-box">
+
+        <h3>👤 Account Information</h3>
+
+        <p>
+            <strong>Username:</strong>
+            {{ username }}
+        </p>
+
+        <p>
+            <strong>Email:</strong>
+            {{ email }}
+        </p>
+
+    </div>
+
+    <div class="security-box">
+
+        <h3>🔒 Security Status</h3>
+
+        <p>✓ Bcrypt password hashing</p>
+
+        <p>✓ Password strength validation</p>
+
+        <p>✓ Session authentication</p>
+
+        <p>✓ SQL injection protection</p>
+
+        <p>✓ Login attempt protection</p>
+
+        <p>✓ Security activity logging</p>
+
+    </div>
+
+    <a href="{{ url_for('security_logs') }}">
+        <button class="secondary">
+            View Security Logs
+        </button>
+    </a>
+
+    <a href="{{ url_for('logout') }}">
+        <button class="logout">
+            Logout
+        </button>
+    </a>
+
+</div>
+
+</body>
+</html>

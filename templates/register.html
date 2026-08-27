@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="container">
+
+        <div class="logo">🔐</div>
+
+        <h1>Create Account</h1>
+
+        <p class="subtitle">
+            Create your secure account
+        </p>
+
+        {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST" onsubmit="return validateForm()">
+
+            <label>Username</label>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Enter username"
+                required
+            >
+
+            <label>Email Address</label>
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+            >
+
+            <label>Password</label>
+
+            <div class="password-box">
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Minimum 8 characters"
+                    oninput="checkStrength()"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="show-btn"
+                    onclick="togglePassword('password', this)"
+                >👁</button>
+
+            </div>
+
+            <div class="strength-container">
+
+                <div id="strength-bar"></div>
+
+                <p id="strength-text">
+                    Password strength: Not entered
+                </p>
+
+            </div>
+
+            <label>Confirm Password</label>
+
+            <div class="password-box">
+
+                <input
+                    type="password"
+                    id="confirm_password"
+                    name="confirm_password"
+                    placeholder="Re-enter password"
+                    oninput="checkMatch()"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="show-btn"
+                    onclick="togglePassword('confirm_password', this)"
+                >👁</button>
+
+            </div>
+
+            <p id="match-message"></p>
+
+            <button type="submit">
+                Create Account
+            </button>
+
+        </form>
+
+        <p class="bottom-text">
+            Already have an account?
+            <a href="{{ url_for('login') }}">Login</a>
+        </p>
+
+    </div>
+
+</div>
+
+<script>
+
+function togglePassword(id, button) {
+
+    const field = document.getElementById(id);
+
+    if (field.type === "password") {
+        field.type = "text";
+        button.innerText = "🙈";
+    } else {
+        field.type = "password";
+        button.innerText = "👁";
+    }
+}
+
+
+function checkStrength() {
+
+    const password =
+        document.getElementById("password").value;
+
+    const bar =
+        document.getElementById("strength-bar");
+
+    const text =
+        document.getElementById("strength-text");
+
+    let score = 0;
+
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[a-z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+
+    if (password.length === 0) {
+
+        bar.style.width = "0%";
+        text.innerText = "Password strength: Not entered";
+
+    } else if (score <= 2) {
+
+        bar.style.width = "30%";
+        text.innerText = "Password strength: Weak";
+
+    } else if (score <= 4) {
+
+        bar.style.width = "65%";
+        text.innerText = "Password strength: Medium";
+
+    } else {
+
+        bar.style.width = "100%";
+        text.innerText = "Password strength: Strong";
+    }
+}
+
+
+function checkMatch() {
+
+    const password =
+        document.getElementById("password").value;
+
+    const confirmPassword =
+        document.getElementById("confirm_password").value;
+
+    const message =
+        document.getElementById("match-message");
+
+    if (confirmPassword === "") {
+        message.innerText = "";
+    }
+    else if (password === confirmPassword) {
+        message.innerText = "✓ Passwords match";
+    }
+    else {
+        message.innerText = "✗ Passwords do not match";
+    }
+}
+
+
+function validateForm() {
+
+    const password =
+        document.getElementById("password").value;
+
+    const confirmPassword =
+        document.getElementById("confirm_password").value;
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return false;
+    }
+
+    if (password.length < 8) {
+        alert("Password must contain at least 8 characters!");
+        return false;
+    }
+
+    return true;
+}
+
+</script>
+
+</body>
+</html>

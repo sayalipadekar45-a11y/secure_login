@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Activity</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            padding: 35px 20px;
+        }
+
+        .card {
+            max-width: 750px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        h1 {
+            margin: 0 0 7px;
+            color: #0f172a;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .log {
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        .activity {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .time {
+            margin-top: 5px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 18px;
+            background: #0f172a;
+            color: white;
+            border-radius: 9px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>🛡 Security Activity</h1>
+
+    <p class="subtitle">
+        Recent activity on your account
+    </p>
+
+    {% if logs %}
+
+        {% for log in logs %}
+
+        <div class="log">
+
+            <div class="activity">
+                {{ log["activity"] }}
+            </div>
+
+            <div class="time">
+                {{ log["timestamp"] }}
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>No security activity found.</p>
+
+    {% endif %}
+
+    <a class="back"
+       href="{{ url_for('dashboard') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>
